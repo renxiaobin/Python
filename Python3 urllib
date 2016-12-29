@@ -1,0 +1,20 @@
+1.Python3中可以通过新建一个代理处理器来进行url的代理访问
+（当浏览器可以打开某些网站，但是命令行中却ping不通该网址时，除了DNS的问题以外，有可能是因为正在使用代理上网，因此可以在代码中设置相应的代理处理器）
+url = "http://www.baidu.com"
+
+urllib.request.ProxyHandler({'http': 'cn-proxy.cn.oracle.com:80'})
+opener = urllib.request.build_opener(proxy_handler)
+urllib.request.install_opener(opener)
+
+response1 = urllib.request.urlopen(url)
+
+
+2.此外build_opener中可以传入多个处理器，可以同时构建代理和cookie等的url访问
+cj = http.cookiejar.CookieJar()
+opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj),proxy_handler)
+
+
+3.还有，可以通过add_header来伪装不同浏览器版本进行url访问
+req = urllib.request.Request(url)
+req.add_header('user-agent', 'Mozilla/5.0')
+response2 = urllib.request.urlopen(req)
